@@ -1,4 +1,4 @@
-# 🏢 Portal de Cadastro de Empresas
+# 🏢 Desafio Técnico Aurora Questão 1
 
 Sistema completo para cadastro e gestão de empresas usando NestJS, Next.js, shadcn/ui e PostgreSQL.
 
@@ -6,22 +6,10 @@ Sistema completo para cadastro e gestão de empresas usando NestJS, Next.js, sha
 
 ### Opção 1: Com Docker (Recomendado)
 
-\`\`\`bash
 cd portal-cadastro-empresas
-docker-compose up --build
-\`\`\`
+**docker-compose up -d**
 
 ### Opção 2: Desenvolvimento Local
-
-\`\`\`bash
-
-# Terminal 1 - Database
-
-docker run --name portal_db \\
--e POSTGRES_DB=portal_empresas \\
--e POSTGRES_USER=admin \\
--e POSTGRES_PASSWORD=admin123 \\
--p 5432:5432 -d postgres:15-alpine
 
 # Terminal 2 - Backend
 
@@ -30,7 +18,6 @@ cd backend && npm install && npm run start:dev
 # Terminal 3 - Frontend
 
 cd frontend && npm install && npm run dev
-\`\`\`
 
 ## 🌐 Acessar Aplicação
 
