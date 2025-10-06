@@ -1,0 +1,69 @@
+CREATE DATABASE auroradb;
+
+-- Tabela de Departamentos
+CREATE TABLE departamentos (
+id_dep_depto INT PRIMARY KEY,
+nome_dep_depto VARCHAR(50) NOT NULL
+);
+
+-- Tabela de Cargos
+CREATE TABLE cargos (
+id_car_cargo INT PRIMARY KEY,
+nome_car_cargo VARCHAR(50) NOT NULL
+);
+
+-- Tabela de Funcionários
+CREATE TABLE funcionarios (
+id_func INT PRIMARY KEY,
+nome_func VARCHAR(50) NOT NULL,
+id_fun_cargo INT REFERENCES cargos(id_car_cargo),
+id_fun_depto INT REFERENCES departamentos(id_dep_depto),
+data_contrata DATE NOT NULL,
+data_demis DATE,
+salario NUMERIC(15,2)
+);
+
+-- Departamentos
+INSERT INTO departamentos VALUES (1, 'RH');
+INSERT INTO departamentos VALUES (2, 'TI');
+INSERT INTO departamentos VALUES (3, 'Controladoria');
+
+-- Cargos
+INSERT INTO cargos VALUES (1, 'Analista');
+INSERT INTO cargos VALUES (2, 'Gerente');
+INSERT INTO cargos VALUES (3, 'Assistente');
+
+-- Funcionários
+INSERT INTO funcionarios VALUES (1, 'Maria Silva', 1, 1, '2021-01-10', NULL, 3200.00);
+INSERT INTO funcionarios VALUES (2, 'João Souza', 2, 2, '2020-03-15', NULL, 5000.00);
+INSERT INTO funcionarios VALUES (3, 'Ana Costa', 3, 3, '2019-07-20', '2023-02-10', 2800.00);
+INSERT INTO funcionarios VALUES (4, 'Carlos Lima', 1, 3, '2022-06-05', NULL, 3500.00);
+INSERT INTO funcionarios VALUES (5, 'Fernanda Alves', 2, 2, '2021-09-01', NULL, 2900.00);
+
+--A) Query para listar todos os funcionarios com os nomes dos cargos e departamentos
+SELECT f.nome_func, c.nome_car_cargo, d.nome_dep_depto
+FROM funcionarios f
+JOIN cargos c ON f.id_fun_cargo = c.id_car_cargo
+JOIN departamentos d ON f.id_fun_depto = d.id_dep_depto;
+
+--B) Query para listar todos os funcioanrios que estao ativos na empresa
+SELECT nome_func
+FROM funcionarios
+WHERE data_demis IS NULL;
+
+--C) Query para listar todos os funcionarios que trabalham na area de Controlodaroria
+SELECT f.nome_func, d.nome_dep_depto
+FROM funcionarios f
+JOIN departamentos d ON f.id_fun_depto = d.id_dep_depto
+WHERE d.nome_dep_depto = 'Controladoria';
+
+--D) Query para listar todos os funcionarios onde o salario seja superior a R$2.900,00
+SELECT nome_func, salario
+FROM funcionarios
+WHERE salario > 2900.00;
+
+--E) Query para listar a quantidade de pessoas em cada departamento
+SELECT d.nome_dep_depto, COUNT(f.id_func) AS qtde_funcionarios
+FROM departamentos d
+LEFT JOIN funcionarios f ON f.id_fun_depto = d.id_dep_depto
+GROUP BY d.nome_dep_depto;
